@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sahil's Apps</title>
+<style>/* ===== Global ===== */
+     * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         font-family: Arial, sans-serif;
+     }
+
+     body {
+         background: #0f1220;
+         color: #fff;
+         min-height: 100vh;
+     }
+
+     /* ===== Navbar ===== */
+     header {
+         background: #151a2e;
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+         border-bottom: 1px solid rgba(255,255,255,0.08);
+     }
+
+     .navbar {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         padding: 12px 20px;
+     }
+
+     .logo a {
+         color: #fff;
+         font-size: 20px;
+         font-weight: bold;
+         text-decoration: none;
+     }
+
+     .nav-links {
+         list-style: none;
+         display: flex;
+         gap: 18px;
+     }
+
+     .nav-links a {
+         color: #cfd3ff;
+         text-decoration: none;
+         font-size: 14px;
+         padding: 6px 10px;
+         border-radius: 6px;
+         transition: 0.2s;
+     }
+
+     .nav-links a:hover,
+     .nav-links a.active {
+         background: #2a3170;
+         color: #fff;
+     }
+
+/* ===== Title ===== */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 28px;
+}
+
+/* ===== GRID (LOCKED) ===== */
+#apps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* FIXED GRID */
+    gap: 16px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Responsive grid */
+@media (max-width: 1000px) {
+    #apps {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    #apps {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #apps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 400px) {
+    #apps {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ===== Card ===== */
+.card {
+    background: #1a1f36;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.card img {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;
+    background: #FFFFFF;
+}
+
+.info {
+    padding: 10px;
+}
+
+.name {
+    font-size: 14px;
+    font-weight: bold;
+}</style>
+</head>
+    <header>
+        <nav class="navbar" aria-label="Main Navigation">
+          <div class="logo">
+            <a href="/">Sahil's Games</a>
+          </div>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/school">Games</a></li>
+            <li><a href="#">Apps</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+        </nav>
+      </header>
+<body>
+
+
+<h1>Apps</h1>
+
+<div id="apps"></div>
+
+<script>
+const APPS_URL = "apps.json";
+
+async function loadApps() {
+    const res = await fetch(APPS_URL);
+    const data = await res.json();
+
+    renderApps(data.apps || []);
+}
+
+function renderApps(list) {
+    const container = document.getElementById("apps");
+    container.innerHTML = "";
+
+    list.forEach(app => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <img src="${app.cover}" alt="${app.name}">
+            <div class="info">
+                <div class="name">${app.name}</div>
+            </div>
+        `;
+
+        card.onclick = () => window.open(app.url, "_blank");
+
+        container.appendChild(card);
+    });
+}
+
+loadApps();
+</script>
+
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-referral-code="ep05htvxaz4s" data-repl-id="c29153fb-6ffa-4f3e-9edf-8772b8ede5e7"></script></body>
+</html>
